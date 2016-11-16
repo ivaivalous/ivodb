@@ -1,0 +1,13 @@
+{
+    "serverSettings": {
+        "host": "localhost",
+        "port": 2929,
+        "protocol": "http"
+    },
+    "databaseSettings": {
+        "host": "localhost",
+        "port": 27019,
+        "username": "root",
+        "password": ""
+    }
+}
