@@ -12,12 +12,13 @@ class Password():
     @staticmethod
     def get_password_hash(password, salt):
         """Create a hashed password"""
-        return bcrypt.hashpw(password, salt)
+        return bcrypt.hashpw(password.encode('utf-8'), salt)
 
     @staticmethod
     def check_password(password, password_hash):
         """Check if the provided password matches the hash"""
-        return bcrypt.checkpw(password, password_hash)
+        return bcrypt.checkpw(
+            password.encode('utf-8'), password_hash.encode('utf-8'))
 
 
 class Jwt():

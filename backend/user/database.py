@@ -8,7 +8,9 @@ class Database():
 
     def __init__(self):
         self.db_config = config_reader.config['databaseSettings']
-        self.client = MongoClient(self.db_config.host, self.db_config.port)
+        self.client = MongoClient(
+            self.db_config['host'], self.db_config['port'])
+
         self.db = self.client.ivodb
 
     def user_exists(self, user_name=None, email=None):
@@ -18,10 +20,10 @@ class Database():
 
         user = self.db.users.find_one({
             "$or": [
-                {"userName": user_name},
+                {"username": user_name},
                 {"email": email}
             ]
-        }).count()
+        })
 
         return user is not None
 
@@ -32,10 +34,10 @@ class Database():
 
         user = self.db.users.find_one({
             "$or": [
-                {"userName": user_name},
+                {"username": user_name},
                 {"email": email}
             ]
-        }).count()
+        })
 
         return user
 
@@ -43,14 +45,14 @@ class Database():
         """Create a new user"""
         if self.user_exists(user_name, email):
             """User names and emails must be unique"""
-            return
+            raise ValueError("User already exists")
 
         return self.db.users.insert_one({
             "username": user_name,
             "email": email,
             "hash": password_hash,
             "displayName": display_name,
-            "active": true
+            "active": True
         }).inserted_id
 
     def update_user(self, id, user_name, email, display_name, password_hash):

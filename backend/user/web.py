@@ -1,8 +1,10 @@
 #!/usr/bin/env python
 
 import flask
-import users
+import database
 import responses
+from users import UserManager
+
 
 app = flask.Flask(__name__)
 LOGIN_PATH = '../../web/login'
@@ -49,25 +51,36 @@ def sign_in():
     except:
         return responses.get_invalid_request()
 
-    users.login(username_email, password)
+    user = UserManager(db).login(username_email, password)
+
+    if user is None:
+        return responses.get_invalid_request()
+    return responses.get_user(user)
 
 @app.route('/signup', methods=['POST'])
 def register():
     """Request to register with the system"""
     try:
-        email = flask.request.form.email
+        email = flask.request.form['email']
         username = flask.request.form['username']
         display_name = flask.request.form['display-name']
         password = flask.request.form['password']
     except:
         return responses.get_invalid_request()
 
-    users.register(username, email, password, display_name)
+    try:
+        UserManager(db).register(username, email, password, display_name)
+        return responses.get_created()
+    except:
+        # Such user already existed
+        return responses.get_user_exists()
+
 
 @app.route('/reset-password', methods=['POST'])
 def reset_password():
     """Request to reset user password"""
-    users.reset_password()
+    UserManager(db).reset_password()
 
 if __name__ == '__main__':
+    db = database.Database()
     app.run()
