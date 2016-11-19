@@ -9,21 +9,21 @@
             <div class="prominent">
                 <form class="bright-form register-form" method="post" action="signup">
                     <div class="group">
-                        <input type="email" placeholder="Email" required />
+                        <input name="email" type="email" placeholder="Email" required />
                         <span class="help-text">We'll use this address to confirm your account.</span>
                         <br />
-                        <input type="text" placeholder="Username" required />
+                        <input name="username" type="text" placeholder="Username" required />
                         <span class="help-text">Your username will appear in all your resources.</span>
                         <br />
-                        <input type="text" placeholder="Display name" />
+                        <input name="display-name" type="text" placeholder="Display name" />
                         <span class="help-text">How would you like us to call you?</span>
                     </div>
 
                     <div class="group">
-                        <input type="password" placeholder="Password" />
+                        <input name="password" type="password" placeholder="Password" />
                         <span class="help-text">Make sure it's a strong one.</span>
                         <br />
-                        <input type="password" placeholder="Password confirmation" />
+                        <input id="password-confirm" type="password" placeholder="Password confirmation" />
                         <span class="help-text">Confirm your password so you don't get locked out already.</span>
                     </div>
 
