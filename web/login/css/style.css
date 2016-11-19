@@ -1,14 +1,19 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans&subset=cyrillic,cyrillic-ext,latin-ext');
 @import url('https://fonts.googleapis.com/css?family=Righteous');
 
 html, body {
-    font-family: 'Righteous', cursive;
     height: 100%;
     overflow: hidden;
     margin: 0px;
+    font-family: 'Open Sans', sans-serif;
+}
+
+h1, h2, h3 {
+    font-family: 'Righteous', cursive;
 }
 
 body {
-    background-image: url("../bg.jpg");
+    background-image: url("/shared/bg.jpg");
 }
 
 .dim {
@@ -17,7 +22,7 @@ body {
     background-color: rgba(195, 140, 51, 0.35);
 }
 
-.placeholder {
+.prominent {
     width: 100%;
     text-align: center;
     position: relative;
@@ -25,22 +30,80 @@ body {
     transform: translateY(-50%);
 }
 
-.placeholder h1 {
-    margin-top: 0;
-    color: #1e1a09;
-    text-shadow: 1px 1px 1px #0e0a01;
+.prominent a {
+    color: #FFF;
+}
+
+.prominent h1 {
+    margin: 0;
+    color: #424052;
+    text-shadow: 1px 1px 1px #1e3045;
     user-select: none;
     cursor: default;
 }
 
+.bright-form input {
+    border-radius: 4px;
+    border: 1px #FFF solid;
+    font-size: 1.1em;
+    padding: 10px;
+    margin: 0px 5px;
+    background: transparent;
+    color: #fff;
+}
+
+.bright-form input[type='submit'] {
+    background: #eee;
+    color: #C2A066;
+    padding: 8px 10px;
+}
+
+.bright-form input[type='submit']:hover {
+    cursor: pointer;
+    background: #fff;
+}
+
+.register-form input {
+    display: inline-block;
+    margin-top: 20px;
+}
+
+.help-text {
+    position: absolute;
+    float: right;
+    visibility: hidden;
+    margin: 30px 10px;
+}
+
+.register-form input:focus + .help-text {
+    visibility: visible;
+    opacity: 100;
+    animation: fadein 1s;
+}
+
+@keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+.group {
+    margin-bottom: 20px;
+}
+
 @media screen and (min-width: 768px) {
-    .placeholder h1 {
+    .prominent h1 {
         font-size: 14em;
+    }
+
+    .register-form {
+        max-width: 400px;
+        margin-left: auto;
+        margin-right: auto;
     }
 }
 
 @media screen and (max-width: 767px) {
-    .placeholder h1 {
+    .prominent h1 {
         font-size: 6em;
     }
 }

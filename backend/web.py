@@ -1,1 +1,0 @@
-# This file shall expose the ivodb web API
