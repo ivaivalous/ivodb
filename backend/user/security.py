@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 
+import config_reader
 import bcrypt
+import jwt
 
 
 class Password():
@@ -24,10 +26,17 @@ class Password():
 class Jwt():
     """Responsible for creation and validation of JWT tokens"""
 
-    @staticmethod
-    def generate_jwt(data):
-        pass
+    def __init__(self):
+        self.algorithm = config_reader.config['jwtSettings']['algorithm']
+        self.secret = config_reader.config['jwtSettings']['secret']
 
-    @staticmethod
-    def validate_jwt(jwt):
-        pass
+    def generate_jwt(self, data):
+        return jwt.encode(data, self.secret, algorithm=self.algorithm)
+
+    def validate_jwt(self, token):
+        try:
+            payload = jwt.decode(
+                token, self.secret, algorithms=[self.algorithm])
+            return True
+        except jwt.InvalidTokenError:
+            return False

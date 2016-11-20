@@ -8,6 +8,11 @@
         <div class="dim">
             <div class="prominent">
                 <h1>ivodb.</h1>
+                {% if login_error is defined %}
+                <div class="group">
+                    We couldn't find such a user. Check your username and password and try again.
+                </div>
+                {% endif %}
                 <form class="bright-form" method="post" action="signin">
                     <input name="username" type="text" placeholder="Username or email" />
                     <input name="password" type="password" placeholder="Password" />

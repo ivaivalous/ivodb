@@ -9,7 +9,9 @@ html, body {
 }
 
 h1, h2, h3 {
+    margin: 0;
     font-family: 'Righteous', cursive;
+    color: #424052;
 }
 
 body {
@@ -40,7 +42,6 @@ body {
 
 .prominent h1 {
     margin: 0;
-    color: #424052;
     text-shadow: 1px 1px 1px #1e3045;
     user-select: none;
     cursor: default;
@@ -116,6 +117,10 @@ body {
         font-size: 14em;
     }
 
+    .prominent h2 {
+        font-size: 4em;
+    }
+
     .register-form {
         max-width: 400px;
         margin-left: auto;
@@ -126,6 +131,10 @@ body {
 @media screen and (max-width: 767px) {
     .prominent h1 {
         font-size: 6em;
+    }
+
+    .prominent h2 {
+        font-size: 2em;
     }
 }
 

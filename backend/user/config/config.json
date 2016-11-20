@@ -9,5 +9,9 @@
         "port": 27017,
         "username": "root",
         "password": ""
+    },
+    "jwtSettings": {
+        "algorithm": "HS256",
+        "secret": "<SECRET GOES HERE>"
     }
 }

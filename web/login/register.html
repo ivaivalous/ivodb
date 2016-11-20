@@ -7,15 +7,30 @@
     <body>
         <div class="dim">
             <div class="prominent">
+                {% if success %}
+                <h1>Success!</h1>
+                <div class="group">
+                    You can now <a href="login">log in!</a>
+                </div>
+                {% endif %}
+
+                {% if success == false %}
+                <h2>Oops!</h2>
+                <div class="group">
+                    It seems this email or username has already been taken. If that is you, you can reset your password and login. Otherwise, choose a different name.
+                </div>
+                {% endif %}
+
+                {% if success is not defined or success == false %}
                 <form class="bright-form register-form" method="post" action="signup">
                     <div class="group">
-                        <input name="email" type="email" placeholder="Email" required />
+                        <input name="email" type="email" placeholder="Email" required {% if email is defined %}value="{{email}}"{% endif %} />
                         <span class="help-text">We'll use this address to confirm your account.</span>
                         <br />
-                        <input name="username" type="text" placeholder="Username" required />
+                        <input name="username" type="text" placeholder="Username" required {% if username is defined %}value="{{username}}"{% endif %} />
                         <span class="help-text">Your username will appear in all your resources.</span>
                         <br />
-                        <input name="display-name" type="text" placeholder="Display name" />
+                        <input name="display-name" type="text" placeholder="Display name" {% if display_name is defined %}value="{{display_name}}"{% endif %} />
                         <span class="help-text">How would you like us to call you?</span>
                     </div>
 
@@ -34,6 +49,7 @@
                 <div class="group">
                     <a href="login">Already have an account? Sign in.</a>
                 </div>
+                {% endif %}
             </div>
         </div>
     </body>

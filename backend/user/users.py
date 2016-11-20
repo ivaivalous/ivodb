@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-from security import Password
+from security import Password, Jwt
 
 class UserManager():
 
@@ -14,8 +14,13 @@ class UserManager():
         if user is None:
             return None
 
+        del user['_id']
+
         if Password.check_password(password, user['hash']):
-            return user
+            del user['hash']
+            jwt = Jwt().generate_jwt(user)
+            return user, jwt
+
         return None
 
     def register(self, username, email, password, display_name=""):
