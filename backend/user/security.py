@@ -37,6 +37,6 @@ class Jwt():
         try:
             payload = jwt.decode(
                 token, self.secret, algorithms=[self.algorithm])
-            return True
+            return True, payload
         except jwt.InvalidTokenError:
-            return False
+            return False, None

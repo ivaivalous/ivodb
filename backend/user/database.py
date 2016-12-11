@@ -57,3 +57,36 @@ class Database():
 
     def update_user(self, id, user_name, email, display_name, password_hash):
         pass
+
+
+    def get_resource(self, user_id, path):
+        if user_id is None or path is None:
+            return None
+
+        return self.db.resources.find_one({
+            "$and": [
+                {"userId": user_id},
+                {"path": path}
+            ]
+        })
+
+
+    def get_resource_by_user_name(self, username, path):
+        user = self.get_user(user_name=username)
+
+        if user is None:
+            return None
+
+        user_id = str(user['_id'])
+
+        return self.get_resource(user_id, path)
+
+
+    def create_resource(self, user_id, name, path, body):
+        return self.db.resources.insert_one({
+            "userId": user_id,
+            "name": name,
+            "path": path,
+            "type": "text",
+            "body": body
+        }).inserted_id

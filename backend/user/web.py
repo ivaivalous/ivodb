@@ -4,6 +4,7 @@ import flask
 import database
 import responses
 from users import UserManager
+from resources import ResourceManager
 from security import Jwt
 
 
@@ -31,7 +32,7 @@ def send_login():
     if valid:
         return flask.redirect('/cp')
 
-    return flask.render_template('login.html')
+    return flask.render_template('index.html')
 
 
 @app.route('/login/<path:path>')
@@ -41,7 +42,7 @@ def send_login_files(path):
 
 
 @app.route('/register')
-def send_registrer():
+def send_register():
     """Return the registration page"""
     return flask.render_template('register.html')
 
@@ -57,6 +58,37 @@ def user_cp():
     if valid:
         return flask.send_from_directory(CP_PATH, 'index.html')
     return flask.redirect("/login")
+
+
+# Create a new resource
+@app.route('/new', methods=['POST'])
+def create_resource():
+    valid = False
+
+    if 'jwt' in flask.request.cookies:
+        valid, user_info = Jwt().validate_jwt(flask.request.cookies['jwt'])
+
+    if not valid:
+        return responses.get_json_error_response("Bad login")
+
+    try:
+        user_id = user_info['_id']
+        name = flask.request.form['name']
+        path = flask.request.form['path']
+        body = flask.request.form['body']
+    except:
+        return responses.get_invalid_request()
+
+    ResourceManager(db).create(user_id, name, path, body)
+    return responses.get_created()
+
+
+# Get a resource body
+# TODO migrate to the consumer app
+@app.route('/u/<user_name>/<path>')
+def load_resource(user_name, path):
+    body = ResourceManager(db).get_resource_body(user_name, path)
+    return body
 
 
 @app.route('/forgotten-password')

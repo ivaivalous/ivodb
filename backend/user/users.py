@@ -14,7 +14,7 @@ class UserManager():
         if user is None:
             return None
 
-        del user['_id']
+        user['_id'] = str(user['_id'])
 
         if Password.check_password(password, user['hash']):
             del user['hash']
