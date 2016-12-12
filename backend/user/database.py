@@ -70,6 +70,10 @@ class Database():
             ]
         })
 
+    def get_resources(self, user_id):
+        return self.db.resources.find({
+            "userId": user_id
+        })
 
     def get_resource_by_user_name(self, username, path):
         user = self.get_user(user_name=username)
@@ -80,7 +84,6 @@ class Database():
         user_id = str(user['_id'])
 
         return self.get_resource(user_id, path)
-
 
     def create_resource(self, user_id, name, path, body, published):
         return self.db.resources.insert_one({

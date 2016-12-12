@@ -5,10 +5,7 @@
         <title>ivodb - User Command Center</title>
     </head>
     <body>
-        <p>
-            You are now logged in.
-        </p>
-        <p>
+        <p class="disclaimer">
             <b>About this project:</b> ivodb is a work in progress project. There isn't much to see just yet.
         </p>
 
@@ -27,7 +24,16 @@
 
           <button id="submit-resource" />Create</button>
         </form>
+
+        <div class="resources-list">
+          <ul class="flat">
+          {% for res in resources %}
+            <li>
+              <a href="/u/{{user_name}}/{{res['path']}}" target="_blank">{{res['name']}}</a></li>
+          {% endfor %}
+          </ul>
+        </div>
+
         <script type="text/javascript" src="cp/js/user.js"></script>
     </body>
 </html>
-

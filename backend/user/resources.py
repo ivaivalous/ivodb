@@ -25,6 +25,9 @@ class ResourceManager():
 
         return resource
 
+    def get_resources(self, user_id):
+        return self.db.get_resources(user_id)
+
     def get_resource_body(self, user_name, path):
         resource = self.get_resource(user_name, path)
 

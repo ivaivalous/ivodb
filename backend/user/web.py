@@ -53,10 +53,16 @@ def user_cp():
     valid = False
 
     if 'jwt' in flask.request.cookies:
-        valid = Jwt().validate_jwt(flask.request.cookies['jwt'])
+        valid, user_info = Jwt().validate_jwt(flask.request.cookies['jwt'])
+        user_id = user_info['_id']
+        user_name = user_info['username']
 
     if valid:
-        return flask.send_from_directory(CP_PATH, 'index.html')
+        resources = ResourceManager(db).get_resources(user_id)
+        # TODO move cp.html from the login folder
+        return flask.render_template(
+            'cp.html', resources=resources, user_name=user_name)
+
     return flask.redirect("/login")
 
 

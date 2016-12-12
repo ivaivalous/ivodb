@@ -1,4 +1,78 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans');
+
+html, body {
+  font-family: 'Open Sans', sans-serif;
+}
+
+body {
+  background-color: #4D4D50;
+  color: #FFF;
+}
+
 label {
   display: inline-block;
-  width: 160px;
+  width: 80px;
+  vertical-align: top;
+  padding: 2px;
+  margin: 8px;
+}
+
+.disclaimer {
+  padding: 6px;
+  background-color: #343436;
+  border-radius: 2px;
+}
+
+input, textarea {
+  background-color: #343436;
+  color: #FFF;
+  padding: 6px;
+  margin: 8px;
+  border: none;
+  border-radius: 2px;
+}
+
+textarea {
+  height: 400px;
+}
+
+@media screen and (min-width: 768px) {
+    input, textarea {
+        width: 800px;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    input, textarea {
+        width: 80%;
+        margin: auto;
+    }
+}
+
+button {
+  background-color: #3F693F;
+  color: #FFF;
+  border: none;
+  border-radius: 2px;
+  padding: 6px;
+}
+
+button:hover {
+  background-color: #6AAF6A;
+}
+
+ul.flat {
+  list-style: none;
+}
+
+ul.flat li {
+  display: inline-block;
+  padding: 6px;
+  border-radius: 2px;
+  background-color: #343436;
+}
+
+ul.flat li a {
+  color: #FFF;
+  text-decoration: none;
 }
