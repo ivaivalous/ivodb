@@ -60,6 +60,16 @@ def user_cp():
     return flask.redirect("/login")
 
 
+@app.route('/cp/<path:path>')
+def send_ucp_files(path):
+    """User CP page static resources - CSS, JS"""
+    if 'jwt' in flask.request.cookies:
+        if Jwt().validate_jwt(flask.request.cookies['jwt']):
+            return flask.send_from_directory(CP_PATH, path)
+
+    return flask.redirect("/login")
+
+
 # Create a new resource
 @app.route('/new', methods=['POST'])
 def create_resource():

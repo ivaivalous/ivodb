@@ -1,1 +1,33 @@
-You are now logged in.
+<html>
+    <head>
+        <link rel="stylesheet" href="cp/css/style.css">
+        <meta name=viewport content="width=device-width, initial-scale=1">
+        <title>ivodb - User Command Center</title>
+    </head>
+    <body>
+        <p>
+            You are now logged in.
+        </p>
+        <p>
+            <b>About this project:</b> ivodb is a work in progress project. There isn't much to see just yet.
+        </p>
+
+        <form id="create-resource">
+          <label for="name">Name:</label>
+          <input id="name" />
+          <br />
+          
+          <label for="path">Path:</label>
+          <input id="path" />
+          <br />
+          
+          <label>Body:</label>
+          <textarea id="body"></textarea>
+          <br />
+
+          <button id="submit-resource" />Create</button>
+        </form>
+        <script type="text/javascript" src="cp/js/user.js"></script>
+    </body>
+</html>
+
