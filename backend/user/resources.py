@@ -21,7 +21,7 @@ class ResourceManager():
         resource = self.db.get_resource_by_user_name(user_name, path)
 
         if resource is None:
-            return {}
+            return resource
 
         del resource['_id']
 
@@ -33,8 +33,8 @@ class ResourceManager():
     def get_resource_for_display(self, user_name, path):
         resource = self.get_resource(user_name, path)
 
-        if resource['published'] is not True:
-            return None
+        if resource is None or resource['published'] is not True:
+            return None, {}
 
         try:
             headers = json.loads(resource['headers'])
