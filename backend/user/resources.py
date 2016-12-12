@@ -13,9 +13,9 @@ class ResourceManager():
             # TODO throw an exception
             return None
 
-        return self.db.create_resource(user_id, name, path, body)
+        return self.db.create_resource(user_id, name, path, body, True)
 
-    def get_resource_description(self, user_name, path):
+    def get_resource(self, user_name, path):
         resource = self.db.get_resource_by_user_name(user_name, path)
 
         if resource is None:
@@ -26,6 +26,9 @@ class ResourceManager():
         return resource
 
     def get_resource_body(self, user_name, path):
-        resource = self.get_resource_description(user_name, path)
+        resource = self.get_resource(user_name, path)
+
+        if 'body' not in resource or resource['published'] is not True:
+            return None
 
         return resource['body']

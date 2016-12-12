@@ -88,6 +88,9 @@ def create_resource():
 @app.route('/u/<user_name>/<path>')
 def load_resource(user_name, path):
     body = ResourceManager(db).get_resource_body(user_name, path)
+    
+    if body is None:
+        return flask.render_template('404.html')
     return body
 
 

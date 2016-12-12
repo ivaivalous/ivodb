@@ -82,11 +82,12 @@ class Database():
         return self.get_resource(user_id, path)
 
 
-    def create_resource(self, user_id, name, path, body):
+    def create_resource(self, user_id, name, path, body, published):
         return self.db.resources.insert_one({
             "userId": user_id,
             "name": name,
             "path": path,
             "type": "text",
-            "body": body
+            "body": body,
+            "published": published
         }).inserted_id
