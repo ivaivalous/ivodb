@@ -9,11 +9,13 @@ function createResource(event) {
     var name = document.getElementById('name').value;
     var rqPath = document.getElementById('path').value;
     var body = document.getElementById('body').value;
+    var headers = document.getElementById('headers').value;
 
     var data = new FormData();
     data.append('name', name);
     data.append('path', rqPath);
     data.append('body', body);
+    data.append('headers', headers);
 
     var xhr = new XMLHttpRequest();
     xhr.open('POST', '/new', true);
@@ -76,6 +78,7 @@ function editResource(resourceId) {
     document.getElementById('name').value = resourceInfo.name;
     document.getElementById('path').value = resourceInfo.path;
     document.getElementById('body').value = resourceInfo.body;
+    document.getElementById('headers').value = resourceInfo.headers;
 }
 
 function activateResource(resourceId) {
@@ -105,10 +108,12 @@ function getResourceInfo(resourceId) {
     var name = resourceInfo.querySelectorAll("[name='name']")[0].value;
     var path = resourceInfo.querySelectorAll("[name='path']")[0].value;
     var body = resourceInfo.querySelectorAll("[name='body']")[0].value;
+    var headers = resourceInfo.querySelectorAll("[name='headers']")[0].value;
 
     return {
         name: name,
         path: path,
-        body: body
+        body: body,
+        headers: headers
     }
 }

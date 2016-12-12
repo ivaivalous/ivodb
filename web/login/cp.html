@@ -6,7 +6,7 @@
     </head>
     <body>
         <p class="disclaimer">
-            <b>About this project:</b> ivodb is a work in progress project. There isn't much to see just yet.
+            <b>About:</b> ivodb is a work in progress by <a href="https://github.com/ivaivalous">Ivaylo Marinkov</a>. There isn't much to see just yet.
         </p>
 
         <h1>New Resource</h1>
@@ -19,9 +19,13 @@
           <label for="path">Path:</label>
           <input id="path" />
           <br />
+
+          <label for="headers">Headers (as a JS map):</label>
+          <textarea id="headers"></textarea>
+          <br />
           
           <label>Body:</label>
-          <textarea id="body"></textarea>
+          <textarea id="body" class="request-body"></textarea>
           <br />
 
           <button id="submit-resource" />Create</button>
@@ -49,6 +53,7 @@
                   <input type="hidden" name="name" value="{{res['name']}}" />
                   <input type="hidden" name="path" value="{{res['path']}}" />
                   <input type="hidden" name="body" value="{{res['body']}}" />
+                  <input type="hidden" name="headers" value="{{res['headers']}}" />
               </div>
             </li>
           {% endfor %}

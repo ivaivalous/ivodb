@@ -92,10 +92,11 @@ def create_resource():
         name = flask.request.form['name']
         path = flask.request.form['path']
         body = flask.request.form['body']
+        headers = flask.request.form['headers']
     except:
         return responses.get_invalid_request()
 
-    ResourceManager(db).create(user_id, name, path, body)
+    ResourceManager(db).create(user_id, name, path, body, headers)
     return responses.get_created()
 
 
@@ -165,11 +166,19 @@ def delete_resource(resource_id):
 # TODO migrate to the consumer app
 @app.route('/u/<user_name>/<path>')
 def load_resource(user_name, path):
-    body = ResourceManager(db).get_resource_body(user_name, path)
+    body, headers = ResourceManager(db).get_resource_for_display(
+        user_name, path)
     
     if body is None:
         return flask.render_template('404.html')
-    return body
+
+    resp = flask.Response(body)
+
+    # Set pre-configured headers
+    for key, value in headers.iteritems():
+        resp.headers[key] = value
+
+    return resp
 
 
 @app.route('/forgotten-password')

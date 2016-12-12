@@ -32,7 +32,7 @@ input, textarea {
   border-radius: 2px;
 }
 
-textarea {
+textarea.request-body {
   height: 400px;
 }
 
@@ -84,4 +84,8 @@ ul.flat li a {
 
 .resource-info {
   display: none;
+}
+
+a {
+  color: #fff;
 }

@@ -86,17 +86,20 @@ class Database():
 
         return self.get_resource(user_id, path)
 
-    def create_resource(self, user_id, name, path, body, published):
+    def create_resource(self, user_id, name, path, body, headers, published):
         return self.db.resources.insert_one({
             "userId": user_id,
             "name": name,
             "path": path,
             "type": "text",
             "body": body,
+            "headers": headers,
             "published": published
         }).inserted_id
 
-    def update_resource(self, user_id, name, path, new_path, body, published):
+    def update_resource(
+            self, user_id, name, path, new_path, body, headers, published):
+
         return self.db.resources.update(
             {"$and": [
                 {"userId": user_id},
@@ -106,6 +109,7 @@ class Database():
                 "name": name,
                 "path": new_path,
                 "body": body,
+                "headers": headers,
                 "published": published
             }
             }

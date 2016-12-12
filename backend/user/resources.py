@@ -1,20 +1,21 @@
 #!/usr/bin/env python
+import json
 
 class ResourceManager():
 
     def __init__(self, db):
         self.db = db
 
-    def create(self, user_id, name, path, body):
+    def create(self, user_id, name, path, body, headers):
         """Create a new resource owned by the provided user"""
 
         if self.db.get_resource(user_id, path) is not None:
             # Resource exists already
             # Overwrite the resource
             return self.db.update_resource(
-                user_id, name, path, path, body, True)
+                user_id, name, path, path, body, headers, True)
 
-        return self.db.create_resource(user_id, name, path, body, True)
+        return self.db.create_resource(user_id, name, path, body, headers, True)
 
     def get_resource(self, user_name, path):
         resource = self.db.get_resource_by_user_name(user_name, path)
@@ -29,13 +30,19 @@ class ResourceManager():
     def get_resources(self, user_id):
         return self.db.get_resources(user_id)
 
-    def get_resource_body(self, user_name, path):
+    def get_resource_for_display(self, user_name, path):
         resource = self.get_resource(user_name, path)
 
-        if 'body' not in resource or resource['published'] is not True:
+        if resource['published'] is not True:
             return None
 
-        return resource['body']
+        try:
+            headers = json.loads(resource['headers'])
+        except:
+            # Headers have not been specified or were of invalid format
+            headers = {}
+
+        return resource['body'], headers
 
     def activate(self, user_id, path):
         self.db.set_resource_public(user_id, path, True)
