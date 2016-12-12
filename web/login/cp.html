@@ -9,6 +9,8 @@
             <b>About this project:</b> ivodb is a work in progress project. There isn't much to see just yet.
         </p>
 
+        <h1>New Resource</h1>
+
         <form id="create-resource">
           <label for="name">Name:</label>
           <input id="name" />
@@ -25,11 +27,30 @@
           <button id="submit-resource" />Create</button>
         </form>
 
+        <h1>Your Resources</h1>
+
         <div class="resources-list">
-          <ul class="flat">
+          <ul class="flat" id="resources">
           {% for res in resources %}
             <li>
-              <a href="/u/{{user_name}}/{{res['path']}}" target="_blank">{{res['name']}}</a></li>
+              <a href="/u/{{user_name}}/{{res['path']}}" target="_blank">{{res['name']}}</a>
+              <span class="action" id="edit-{{res['_id']}}" title="Edit">e</span>
+
+              {% if res['published'] %}
+              <span class="action" id="deactivate-{{res['_id']}}" title="Deactivate">d</span>
+              {% endif %}
+              {% if not res['published'] %}
+              <span class="action" id="activate-{{res['_id']}}" title="Activate">a</span>
+              {% endif %}
+
+              <span class="action" id="delete-{{res['_id']}}" title="Delete">x</span>
+
+              <div class="resource-info" id="resource-info-{{res['_id']}}">
+                  <input type="hidden" name="name" value="{{res['name']}}" />
+                  <input type="hidden" name="path" value="{{res['path']}}" />
+                  <input type="hidden" name="body" value="{{res['body']}}" />
+              </div>
+            </li>
           {% endfor %}
           </ul>
         </div>

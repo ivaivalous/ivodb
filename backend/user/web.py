@@ -99,6 +99,68 @@ def create_resource():
     return responses.get_created()
 
 
+# Make a resource inactive - it will no longer be publicly visible
+@app.route('/deactivate', methods=['POST'])
+def deactivate_resource():
+    valid = False
+
+    if 'jwt' in flask.request.cookies:
+        valid, user_info = Jwt().validate_jwt(flask.request.cookies['jwt'])
+
+    if not valid:
+        return responses.get_json_error_response("Bad login")
+
+    try:
+        user_id = user_info['_id']
+        path = flask.request.form['path']
+    except:
+        return responses.get_invalid_request()
+
+    ResourceManager(db).deactivate(user_id, path)
+    return responses.get_created()
+
+
+# Make a resource inactive - it will no longer be publicly visible
+@app.route('/activate', methods=['POST'])
+def activate_resource():
+    valid = False
+
+    if 'jwt' in flask.request.cookies:
+        valid, user_info = Jwt().validate_jwt(flask.request.cookies['jwt'])
+
+    if not valid:
+        return responses.get_json_error_response("Bad login")
+
+    try:
+        user_id = user_info['_id']
+        path = flask.request.form['path']
+    except:
+        return responses.get_invalid_request()
+
+    ResourceManager(db).activate(user_id, path)
+    return responses.get_created()
+
+
+# Permanently delete a resource
+@app.route('/delete/<resource_id>', methods=['DELETE'])
+def delete_resource(resource_id):
+    valid = False
+
+    if 'jwt' in flask.request.cookies:
+        valid, user_info = Jwt().validate_jwt(flask.request.cookies['jwt'])
+
+    if not valid:
+        return responses.get_json_error_response("Bad login")
+
+    try:
+        user_id = user_info['_id']
+    except:
+        return responses.get_invalid_request()
+
+    ResourceManager(db).delete(user_id, resource_id)
+    return responses.get_created()
+
+
 # Get a resource body
 # TODO migrate to the consumer app
 @app.route('/u/<user_name>/<path>')

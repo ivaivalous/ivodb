@@ -10,8 +10,9 @@ class ResourceManager():
 
         if self.db.get_resource(user_id, path) is not None:
             # Resource exists already
-            # TODO throw an exception
-            return None
+            # Overwrite the resource
+            return self.db.update_resource(
+                user_id, name, path, path, body, True)
 
         return self.db.create_resource(user_id, name, path, body, True)
 
@@ -35,3 +36,12 @@ class ResourceManager():
             return None
 
         return resource['body']
+
+    def activate(self, user_id, path):
+        self.db.set_resource_public(user_id, path, True)
+
+    def deactivate(self, user_id, path):
+        self.db.set_resource_public(user_id, path, False)
+
+    def delete(self, user_id, resource_id):
+        self.db.delete_resource(user_id, resource_id)

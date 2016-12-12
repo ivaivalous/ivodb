@@ -76,3 +76,12 @@ ul.flat li a {
   color: #FFF;
   text-decoration: none;
 }
+
+.action {
+  border-bottom: 1px dotted #fff;
+  cursor: pointer;
+}
+
+.resource-info {
+  display: none;
+}

@@ -3,6 +3,7 @@
 import config_reader
 import pymongo
 from pymongo import MongoClient
+from bson.objectid import ObjectId
 
 class Database():
 
@@ -94,3 +95,38 @@ class Database():
             "body": body,
             "published": published
         }).inserted_id
+
+    def update_resource(self, user_id, name, path, new_path, body, published):
+        return self.db.resources.update(
+            {"$and": [
+                {"userId": user_id},
+                {"path": path}
+            ]},
+            {"$set": {
+                "name": name,
+                "path": new_path,
+                "body": body,
+                "published": published
+            }
+            }
+        )
+
+    def set_resource_public(self, user_id, path, published):
+        return self.db.resources.update(
+            {"$and": [
+                {"userId": user_id},
+                {"path": path}
+            ]},
+            {"$set": {
+                "published": published
+            }
+            }
+        )
+
+    # Delete a resource. resource_id would normally be sufficient,
+    # user_id is used to help with delete permission validation
+    def delete_resource(self, user_id, resource_id):
+        return self.db.resources.delete_one({
+            "userId": user_id,
+            "_id": ObjectId(resource_id)
+        })
