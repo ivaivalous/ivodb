@@ -11,7 +11,6 @@ body {
 
 label {
   display: inline-block;
-  width: 80px;
   vertical-align: top;
   padding: 2px;
   margin: 8px;
@@ -26,7 +25,7 @@ label {
 input, textarea {
   background-color: #343436;
   color: #FFF;
-  padding: 6px;
+  padding: 14px;
   margin: 8px;
   border: none;
   border-radius: 2px;
@@ -40,12 +39,32 @@ textarea.request-body {
     input, textarea {
         width: 800px;
     }
+
+    label {
+        width: 80px;
+    }
 }
 
 @media screen and (max-width: 767px) {
-    input, textarea {
-        width: 80%;
-        margin: auto;
+    h1 {
+      text-align: center;
+    }
+
+    input, textarea, button {
+        width: 95%;
+    }
+
+    label {
+      display: block;
+    }
+
+    ul.flat {
+      text-align: center;
+      padding: 0px;
+    }
+
+    ul.flat li {
+      font-size: 1.4em;
     }
 }
 
@@ -54,7 +73,8 @@ button {
   color: #FFF;
   border: none;
   border-radius: 2px;
-  padding: 6px;
+  padding: 14px;
+  margin: 8px;
 }
 
 button:hover {
@@ -68,6 +88,7 @@ ul.flat {
 ul.flat li {
   display: inline-block;
   padding: 6px;
+  margin-top: 10px;
   border-radius: 2px;
   background-color: #343436;
 }

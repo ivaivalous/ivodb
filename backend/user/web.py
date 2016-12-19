@@ -1,8 +1,11 @@
 #!/usr/bin/env python
 
 import flask
+import requests
+import re
 import database
 import responses
+from flask import request
 from users import UserManager
 from resources import ResourceManager
 from security import Jwt
@@ -91,12 +94,13 @@ def create_resource():
         user_id = user_info['_id']
         name = flask.request.form['name']
         path = flask.request.form['path']
+        r_type = flask.request.form['type']
         body = flask.request.form['body']
         headers = flask.request.form['headers']
     except:
         return responses.get_invalid_request()
 
-    ResourceManager(db).create(user_id, name, path, body, headers)
+    ResourceManager(db).create(user_id, name, path, r_type, body, headers)
     return responses.get_created()
 
 
@@ -164,21 +168,57 @@ def delete_resource(resource_id):
 
 # Get a resource body
 # TODO migrate to the consumer app
-@app.route('/u/<user_name>/<path>')
-def load_resource(user_name, path):
-    body, headers = ResourceManager(db).get_resource_for_display(
+@app.route('/u/<user_name>/<path>', defaults={'params': ''})
+@app.route('/u/<user_name>/<path>/<params>')
+def load_resource(user_name, path, params):
+    body, headers, r_type = ResourceManager(db).get_resource_for_display(
         user_name, path)
     
     if body is None:
         return flask.render_template('404.html')
 
-    resp = flask.Response(body)
+    if r_type == "proxy":
+        resp = get_proxy_response(request, body, params)
+    else:
+        resp = flask.Response(body)
 
     # Set pre-configured headers
     for key, value in headers.iteritems():
         resp.headers[key] = value
 
     return resp
+
+
+# TODO: Move away
+def get_proxy_response(request, target_url, url_params):
+    request_headers = {}
+    url = target_url + '/' + url_params
+
+    print(url)
+
+    for key, value in request.headers:
+        if key == 'Host':
+            continue
+        request_headers[key] = value
+
+    resp = requests.request(
+        method=request.method,
+        url=url,
+        headers=request_headers,
+        data=request.get_data(),
+        cookies=request.cookies,
+        allow_redirects=False)
+
+    excluded_headers = [
+        'content-encoding', 'content-length',
+        'transfer-encoding', 'connection'
+    ]
+
+    headers = [(name, value) for (name, value) in resp.raw.headers.items()
+               if name.lower() not in excluded_headers]
+
+    response = flask.Response(resp.content, resp.status_code, headers)
+    return response
 
 
 @app.route('/forgotten-password')

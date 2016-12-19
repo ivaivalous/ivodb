@@ -14,10 +14,6 @@ h1, h2, h3 {
     color: #424052;
 }
 
-body {
-    background-image: url("https://ivodb.com/shared/bg.jpg");
-}
-
 .dim {
     width: 100%;
     height: 100%;
@@ -68,11 +64,6 @@ body {
     background: #fff;
 }
 
-.register-form input {
-    display: inline-block;
-    margin-top: 20px;
-}
-
 .help-text {
     position: absolute;
     float: right;
@@ -113,6 +104,10 @@ body {
 }
 
 @media screen and (min-width: 768px) {
+    body {
+        background-image: url("https://ivodb.com/shared/bg.jpg");
+    }
+
     .prominent h1 {
         font-size: 14em;
     }
@@ -126,15 +121,34 @@ body {
         margin-left: auto;
         margin-right: auto;
     }
+
+    .register-form input {
+        display: inline-block;
+        margin-top: 20px;
+    }
 }
 
 @media screen and (max-width: 767px) {
+    body {
+        background-color: #4D4D50;
+    }
+
     .prominent h1 {
         font-size: 6em;
     }
 
     .prominent h2 {
         font-size: 2em;
+    }
+
+    .register-form input {
+        display: block;
+        margin: 20px auto 0px auto;
+    }
+
+    .bright-form input {
+        display: block;
+        margin: 20px auto 0px auto;
     }
 }
 

@@ -8,12 +8,14 @@ function createResource(event) {
 
     var name = document.getElementById('name').value;
     var rqPath = document.getElementById('path').value;
+    var rqType = document.getElementById('resource-type').value;
     var body = document.getElementById('body').value;
     var headers = document.getElementById('headers').value;
 
     var data = new FormData();
     data.append('name', name);
     data.append('path', rqPath);
+    data.append('type', rqType);
     data.append('body', body);
     data.append('headers', headers);
 
@@ -77,6 +79,7 @@ function editResource(resourceId) {
     var resourceInfo = getResourceInfo(resourceId);
     document.getElementById('name').value = resourceInfo.name;
     document.getElementById('path').value = resourceInfo.path;
+    document.getElementById('resource-type').value = resourceInfo.type;
     document.getElementById('body').value = resourceInfo.body;
     document.getElementById('headers').value = resourceInfo.headers;
 }
@@ -107,12 +110,14 @@ function getResourceInfo(resourceId) {
     var resourceInfo = document.getElementById('resource-info-' + resourceId);
     var name = resourceInfo.querySelectorAll("[name='name']")[0].value;
     var path = resourceInfo.querySelectorAll("[name='path']")[0].value;
+    var type = resourceInfo.querySelectorAll("[name='type']")[0].value;
     var body = resourceInfo.querySelectorAll("[name='body']")[0].value;
     var headers = resourceInfo.querySelectorAll("[name='headers']")[0].value;
 
     return {
         name: name,
         path: path,
+        type: type,
         body: body,
         headers: headers
     }
