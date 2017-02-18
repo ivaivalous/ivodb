@@ -5,6 +5,8 @@ import requests
 import re
 import database
 import responses
+import scripter
+
 from flask import request
 from users import UserManager
 from resources import ResourceManager
@@ -179,6 +181,8 @@ def load_resource(user_name, path, params):
 
     if r_type == "proxy":
         resp = get_proxy_response(request, body, params)
+    elif r_type == "script":
+        resp = sripter.run(request, body, params)
     else:
         resp = flask.Response(body)
 
