@@ -211,7 +211,8 @@ def get_proxy_response(request, target_url, url_params):
 
     excluded_headers = [
         'content-encoding', 'content-length',
-        'transfer-encoding', 'connection'
+        'transfer-encoding', 'connection',
+        'cookie'
     ]
 
     headers = [(name, value) for (name, value) in resp.raw.headers.items()
