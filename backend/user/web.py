@@ -16,6 +16,7 @@ from security import Jwt
 LOGIN_PATH = '../../web/login'
 SHARED_PATH = '../../web/shared'
 CP_PATH = '../../web/cp'
+ALLOWED_METHODS = ['GET', 'PUT', 'POST', 'PATCH']
 app = flask.Flask(__name__, template_folder=LOGIN_PATH)
 
 
@@ -170,8 +171,11 @@ def delete_resource(resource_id):
 
 # Get a resource body
 # TODO migrate to the consumer app
-@app.route('/u/<user_name>/<path>', defaults={'params': ''})
-@app.route('/u/<user_name>/<path>/<params>')
+@app.route(
+    '/u/<user_name>/<path>',
+    defaults={'params': ''},
+    methods=ALLOWED_METHODS)
+@app.route('/u/<user_name>/<path>/<params>', methods=ALLOWED_METHODS)
 def load_resource(user_name, path, params):
     body, headers, r_type = ResourceManager(db).get_resource_for_display(
         user_name, path)
@@ -182,7 +186,7 @@ def load_resource(user_name, path, params):
     if r_type == "proxy":
         resp = get_proxy_response(request, body, params)
     elif r_type == "script":
-        resp = sripter.run(request, body, params)
+        resp = scr.run(request, body, params)
     else:
         resp = flask.Response(body)
 
@@ -290,4 +294,5 @@ def reset_password():
 
 if __name__ == '__main__':
     db = database.Database()
+    scr = scripter.Scripter()
     app.run()

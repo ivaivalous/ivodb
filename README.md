@@ -17,3 +17,7 @@ To do so, it utilizes the following flow:
  The scripter then executes the user's JavaScript in the same "browser" session as the helper JS and returns the result of the execution.
 
  4. The WebDriver/PhantomJS session is closed and its return value is returned as an HTTP response to the customer.
+
+## OneWay Workflow
+
+Ivodb is to have a side functionality allowing users of the system to exchange messages in a way more secure to standard messaging systems such as email. There 
