@@ -31,9 +31,35 @@ class Scripter():
         print(request.method)
         fmt = (
             'window.requestData ='
-            '    {{method:"{0}",data:"{1}",params:"{2}"}}')
+            '    {{method:"{0}",headers:{1},data:"{2}",params:{3}}}')
 
         return fmt.format(
             request.method,
+            Scripter.build_headers_map(request.headers),
             request.get_data().encode(ENCODING),
-            input_params.encode(ENCODING))
+            Scripter.build_params_map(input_params.encode(ENCODING)))
+
+    @staticmethod
+    def build_params_map(input_params):
+        # input_params looks like "test=aaa&test2=jjj"
+        couples = input_params.split("&")
+        params_map = {}
+
+        for couple in couples:
+            c = couple.split("=")
+            key = c[0]
+            value = c[1] if len(c) > 1 else ""
+            params_map[key] = value
+
+        return params_map
+
+    @staticmethod
+    def build_headers_map(headers):
+        headers_map = {}
+
+        for key, value in headers:
+            if 'jwt=' in value:
+                continue
+            headers_map[key] = value.encode(ENCODING)
+
+        return headers_map
