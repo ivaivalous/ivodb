@@ -14,8 +14,14 @@ SCRIPT_TEMPLATE = """
     window.data = requestData.data;
     window.params = requestData.params;
     window.logs = [];
-    window.log = function(message) {{window.logs.push(message)}};
+    window.log = function(message) {{
+        window.logs.push({{
+            "time": (new Date).getTime(),
+            "message": message
+        }})
+    }};
 """
+GET_LOGS_SCRIPT = 'return window.logs;'
 
 class Scripter():
     def __init__(self):
@@ -28,9 +34,10 @@ class Scripter():
         
         try:
             response = self.driver.execute_script(script_body)
-            return response.encode(ENCODING)
+            logs = self.driver.execute_script(GET_LOGS_SCRIPT)
+            return response.encode(ENCODING), logs
         except:
-            return responses.get_invalid_request()
+            return responses.get_invalid_request(), []
 
     @staticmethod
     def build_runner_sript(request, input_params):

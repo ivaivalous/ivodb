@@ -6,6 +6,7 @@ import re
 import database
 import responses
 import scripter
+import script_logger
 
 from flask import request
 from users import UserManager
@@ -186,7 +187,8 @@ def load_resource(user_name, path, params):
     if r_type == "proxy":
         resp = get_proxy_response(request, body, params)
     elif r_type == "script":
-        resp = scr.run(request, body, params)
+        resp, logs = scr.run(request, body, params)
+        script_logger.save(db, user_name, path, logs)
     else:
         resp = flask.Response(body)
 

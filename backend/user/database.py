@@ -42,6 +42,14 @@ class Database():
 
         return user
 
+    def get_user_id(self, user_name):
+        user = self.get_user(user_name=user_name)
+
+        if user is None:
+            return None
+
+        return str(user['_id'])
+
     def create_user(self, user_name, email, password_hash, display_name=""):
         """Create a new user"""
         if self.user_exists(user_name, email):
@@ -77,12 +85,9 @@ class Database():
         })
 
     def get_resource_by_user_name(self, username, path):
-        user = self.get_user(user_name=username)
-
-        if user is None:
+        user_id = self.get_user_id(username)
+        if user_id is None:
             return None
-
-        user_id = str(user['_id'])
 
         return self.get_resource(user_id, path)
 
@@ -137,3 +142,11 @@ class Database():
             "userId": user_id,
             "_id": ObjectId(resource_id)
         })
+
+    # Save logs belonging to a given user for a given script
+    def save_logs(self, user_id, path, logs):
+        return self.db.resources.insert_one({
+            "userId": user_id,
+            "path": path,
+            "logs": logs
+        }).inserted_id
