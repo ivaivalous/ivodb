@@ -188,7 +188,7 @@ def load_resource(user_name, path, params):
         resp = get_proxy_response(request, body, params)
     elif r_type == "script":
         resp, logs = scr.run(request, body, params)
-        script_logger.save(db, user_name, path, logs)
+        scr_logger.save(user_name, path, logs)
     else:
         resp = flask.Response(body)
 
@@ -200,7 +200,7 @@ def load_resource(user_name, path, params):
 
 @app.route('/u/<user_name>/logs/<path>', methods=["GET"])
 def get_logs(user_name, path):
-    logs = script_logger.load(db, user_name, path)
+    logs = scr_logger.load(user_name, path)
     resp = flask.Response(logs)
     return resp
 
@@ -302,4 +302,5 @@ def reset_password():
 if __name__ == '__main__':
     db = database.Database()
     scr = scripter.Scripter()
+    scr_logger = script_logger.ScriptLogger(db)
     app.run()
