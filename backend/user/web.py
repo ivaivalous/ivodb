@@ -198,6 +198,11 @@ def load_resource(user_name, path, params):
 
     return resp
 
+@app.route('/u/<user_name>/logs/<path>', methods=["GET"])
+def get_logs(user_name, path):
+    logs = script_logger.load(db, user_name, path)
+    resp = flask.Response(logs)
+    return resp
 
 # TODO: Move away
 def get_proxy_response(request, target_url, url_params):

@@ -145,8 +145,17 @@ class Database():
 
     # Save logs belonging to a given user for a given script
     def save_logs(self, user_id, path, logs):
-        return self.db.resources.insert_one({
+        return self.db.logs.insert_one({
             "userId": user_id,
             "path": path,
             "logs": logs
         }).inserted_id
+
+    # Get all logs for a specific user, on a specific script
+    def get_logs(self, user_id, path):
+        return self.db.logs.find({
+            "$and": [
+                {"userId": user_id},
+                {"path": path}
+            ]
+        })

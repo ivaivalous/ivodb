@@ -19,3 +19,28 @@ def save(db, user_name, path, logs):
         return
 
     return db.save_logs(user_id, path, logs)
+
+def load(db, user_name, path):
+    all_messages = []
+    user_id = db.get_user_id(user_name)
+    if user_id is None:
+        return None
+
+    log_records = db.get_logs(user_id, path)
+    for entry in log_records:
+        all_messages.append(transform_message(entry))
+
+    return str(all_messages)
+
+def transform_message(log_entry):
+    result = []
+    logs = log_entry["logs"]
+
+    for entry in logs:
+        result.append({
+            "time": entry["time"],
+            "message": entry["message"]
+        })
+
+    return result
+
