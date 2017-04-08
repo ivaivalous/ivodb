@@ -18,17 +18,20 @@ LOGIN_PATH = '../../web/login'
 SHARED_PATH = '../../web/shared'
 CP_PATH = '../../web/cp'
 ALLOWED_METHODS = ['GET', 'PUT', 'POST', 'PATCH']
+
+LOGIN_WEB_PATH = '/login'
+CP_WEB_PATH = '/control-panel'
 app = flask.Flask(__name__, template_folder=LOGIN_PATH)
 
 
 @app.route('/')
 def index():
     # If no session has been created
-    return flask.redirect("/login")
+    return flask.redirect(LOGIN_WEB_PATH)
 
 
 # Requests for static resources
-@app.route('/login')
+@app.route(LOGIN_WEB_PATH)
 def send_login():
     """Return the login page"""
     valid = False
@@ -37,7 +40,7 @@ def send_login():
         valid = Jwt().validate_jwt(flask.request.cookies['jwt'])
 
     if valid:
-        return flask.redirect('/cp')
+        return flask.redirect(CP_WEB_PATH)
 
     return flask.render_template('index.html')
 
@@ -54,7 +57,7 @@ def send_register():
     return flask.render_template('register.html')
 
 
-@app.route('/cp')
+@app.route('/control-panel')
 def user_cp():
     """Return the user control panel app"""
     valid = False
@@ -70,17 +73,17 @@ def user_cp():
         return flask.render_template(
             'cp.html', resources=resources, user_name=user_name)
 
-    return flask.redirect("/login")
+    return flask.redirect(LOGIN_WEB_PATH)
 
 
-@app.route('/cp/<path:path>')
+@app.route('/control-panel/<path:path>')
 def send_ucp_files(path):
     """User CP page static resources - CSS, JS"""
     if 'jwt' in flask.request.cookies:
         if Jwt().validate_jwt(flask.request.cookies['jwt']):
             return flask.send_from_directory(CP_PATH, path)
 
-    return flask.redirect("/login")
+    return flask.redirect(LOGIN_PATH)
 
 
 # Create a new resource
@@ -170,6 +173,20 @@ def delete_resource(resource_id):
     return responses.get_created()
 
 
+@app.route('/u/<user_name>/logs/<path>', methods=["GET"])
+def get_logs(user_name, path):
+    valid = False
+
+    if 'jwt' in flask.request.cookies:
+        valid, user_info = Jwt().validate_jwt(flask.request.cookies['jwt'])
+
+    if not valid or user_info["username"] != user_name:
+        return responses.get_json_error_response("Bad login")
+
+    logs = scr_logger.load(user_name, path)
+    resp = flask.Response(logs)
+    return resp
+
 # Get a resource body
 # TODO migrate to the consumer app
 @app.route(
@@ -196,12 +213,6 @@ def load_resource(user_name, path, params):
     for key, value in headers.iteritems():
         resp.headers[key] = value
 
-    return resp
-
-@app.route('/u/<user_name>/logs/<path>', methods=["GET"])
-def get_logs(user_name, path):
-    logs = scr_logger.load(user_name, path)
-    resp = flask.Response(logs)
     return resp
 
 # TODO: Move away
@@ -265,7 +276,7 @@ def sign_in():
         # TODO probably use a redirect instead of rendering
         return flask.render_template('index.html', login_error=True)
 
-    response = flask.make_response(flask.redirect('/cp'))
+    response = flask.make_response(flask.redirect(CP_WEB_PATH))
     response.set_cookie('jwt', jwt)
     return response
 
