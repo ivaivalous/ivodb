@@ -98,8 +98,15 @@ ul.flat li a {
   text-decoration: none;
 }
 
+.actions {
+  display: inline-block;
+  border-radius: 2px;
+  padding: 2px 2px 0px 2px;
+  background-color: #4D4D50;
+  vertical-align: middle;
+}
+
 .action {
-  border-bottom: 1px dotted #fff;
   cursor: pointer;
 }
 

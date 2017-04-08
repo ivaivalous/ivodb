@@ -42,23 +42,39 @@
           {% for res in resources %}
             <li>
               <a href="/u/{{user_name}}/{{res['path']}}" target="_blank">{{res['name']}}</a>
-              <span class="action" id="edit-{{res['_id']}}" title="Edit">e</span>
 
-              {% if res['published'] %}
-              <span class="action" id="deactivate-{{res['_id']}}" title="Deactivate">d</span>
-              {% endif %}
-              {% if not res['published'] %}
-              <span class="action" id="activate-{{res['_id']}}" title="Activate">a</span>
-              {% endif %}
+              <div class="actions">
+                <span title="Edit">
+                  <img id="edit-{{res['_id']}}"  class="action" src="shared/icons/pencil.png" />
+                </span>
+                <a href="/u/{{user_name}}/logs/{{res['path']}}" target="_blank">
+                  <span title="Logs">
+                    <img class="action" src="shared/icons/page_white_stack.png" />
+                  </span>
+                </a>
 
-              <span class="action" id="delete-{{res['_id']}}" title="Delete">x</span>
+                {% if res['published'] %}
+                <span title="Deactivate">
+                  <img id="deactivate-{{res['_id']}}" class="action" src="shared/icons/cross.png" />
+                </span>
+                {% endif %}
+                {% if not res['published'] %}
+                <span title="Activate">
+                  <img id="activate-{{res['_id']}}" class="action" src="shared/icons/accept.png" />
+                </span>
+                {% endif %}
 
-              <div class="resource-info" id="resource-info-{{res['_id']}}">
-                  <input type="hidden" name="name" value="{{res['name']}}" />
-                  <input type="hidden" name="path" value="{{res['path']}}" />
-                  <input type="hidden" name="type" value="{{res['type']}}" />
-                  <input type="hidden" name="body" value="{{res['body']}}" />
-                  <input type="hidden" name="headers" value="{{res['headers']}}" />
+                <span title="Delete">
+                  <img  id="delete-{{res['_id']}}" class="action" src="shared/icons/delete.png" />
+                </span>
+
+                <div class="resource-info" id="resource-info-{{res['_id']}}">
+                    <input type="hidden" name="name" value="{{res['name']}}" />
+                    <input type="hidden" name="path" value="{{res['path']}}" />
+                    <input type="hidden" name="type" value="{{res['type']}}" />
+                    <input type="hidden" name="body" value="{{res['body']}}" />
+                    <input type="hidden" name="headers" value="{{res['headers']}}" />
+                </div>
               </div>
             </li>
           {% endfor %}
