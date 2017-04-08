@@ -7,9 +7,17 @@ from selenium import webdriver
 # used to provide functions dealing with input/output
 SCRIPT_RUNNER = "runner.html"
 ENCODING = 'utf-8'
+SCRIPT_TEMPLATE = """
+    window.requestData = {{method:"{0}", headers:{1}, data:"{2}", params:{3}}};
+    window.method = requestData.method;
+    window.headers = requestData.headers;
+    window.data = requestData.data;
+    window.params = requestData.params;
+    window.logs = [];
+    window.log = function(message) {{window.logs.push(message)}};
+"""
 
 class Scripter():
-
     def __init__(self):
         self.driver = webdriver.PhantomJS()
 
@@ -20,7 +28,7 @@ class Scripter():
         
         try:
             response = self.driver.execute_script(script_body)
-            return response.encode('utf-8')
+            return response.encode(ENCODING)
         except:
             return responses.get_invalid_request()
 
@@ -28,12 +36,7 @@ class Scripter():
     def build_runner_sript(request, input_params):
         # Build JS related to having access to input
         # and request data.
-        print(request.method)
-        fmt = (
-            'window.requestData ='
-            '    {{method:"{0}",headers:{1},data:"{2}",params:{3}}}')
-
-        return fmt.format(
+        return SCRIPT_TEMPLATE.format(
             request.method,
             Scripter.build_headers_map(request.headers),
             request.get_data().encode(ENCODING),
