@@ -2,7 +2,8 @@
 
 from security import Password, Jwt
 
-class UserManager():
+
+class UserManager:
 
     def __init__(self, db):
         self.db = db
@@ -31,6 +32,7 @@ class UserManager():
         return self.db.create_user(
             username, email, password_hash, display_name)
 
+    @staticmethod
     def reset_password(self, username, email):
         """Reset forgotten password"""
         pass

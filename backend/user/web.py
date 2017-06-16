@@ -60,12 +60,13 @@ def send_register():
 @app.route('/control-panel')
 def user_cp():
     """Return the user control panel app"""
-    valid = False
 
     if 'jwt' in flask.request.cookies:
         valid, user_info = Jwt().validate_jwt(flask.request.cookies['jwt'])
         user_id = user_info['_id']
         user_name = user_info['username']
+    else:
+        return flask.redirect(LOGIN_WEB_PATH)
 
     if valid:
         resources = ResourceManager(db).get_resources(user_id)
@@ -90,6 +91,7 @@ def send_ucp_files(path):
 @app.route('/new', methods=['POST'])
 def create_resource():
     valid = False
+    user_info = None
 
     if 'jwt' in flask.request.cookies:
         valid, user_info = Jwt().validate_jwt(flask.request.cookies['jwt'])
@@ -115,6 +117,7 @@ def create_resource():
 @app.route('/deactivate', methods=['POST'])
 def deactivate_resource():
     valid = False
+    user_info = None
 
     if 'jwt' in flask.request.cookies:
         valid, user_info = Jwt().validate_jwt(flask.request.cookies['jwt'])
@@ -136,6 +139,7 @@ def deactivate_resource():
 @app.route('/activate', methods=['POST'])
 def activate_resource():
     valid = False
+    user_info = None
 
     if 'jwt' in flask.request.cookies:
         valid, user_info = Jwt().validate_jwt(flask.request.cookies['jwt'])
@@ -157,6 +161,7 @@ def activate_resource():
 @app.route('/delete/<resource_id>', methods=['DELETE'])
 def delete_resource(resource_id):
     valid = False
+    user_info = None
 
     if 'jwt' in flask.request.cookies:
         valid, user_info = Jwt().validate_jwt(flask.request.cookies['jwt'])
@@ -176,6 +181,7 @@ def delete_resource(resource_id):
 @app.route('/u/<user_name>/logs/<path>', methods=["GET"])
 def get_logs(user_name, path):
     valid = False
+    user_info = None
 
     if 'jwt' in flask.request.cookies:
         valid, user_info = Jwt().validate_jwt(flask.request.cookies['jwt'])
@@ -186,6 +192,7 @@ def get_logs(user_name, path):
     logs = scr_logger.load(user_name, path)
     resp = flask.Response(logs)
     return resp
+
 
 # Get a resource body
 # TODO migrate to the consumer app
@@ -214,6 +221,7 @@ def load_resource(user_name, path, params):
         resp.headers[key] = value
 
     return resp
+
 
 # TODO: Move away
 def get_proxy_response(request, target_url, url_params):

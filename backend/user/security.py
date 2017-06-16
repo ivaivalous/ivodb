@@ -5,7 +5,11 @@ import bcrypt
 import jwt
 
 
-class Password():
+class Password:
+
+    def __init__(self):
+        # No special initialization required
+        pass
 
     @staticmethod
     def generate_salt():
@@ -23,7 +27,7 @@ class Password():
             password.encode('utf-8'), password_hash.encode('utf-8'))
 
 
-class Jwt():
+class Jwt:
     """Responsible for creation and validation of JWT tokens"""
 
     def __init__(self):

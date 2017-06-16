@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 import json
 
-class ResourceManager():
+
+class ResourceManager:
 
     def __init__(self, db):
         self.db = db
@@ -35,7 +36,7 @@ class ResourceManager():
         resource = self.get_resource(user_name, path)
 
         if resource is None or resource['published'] is not True:
-            return (None, {}, "text")
+            return None, {}, "text"
 
         try:
             headers = json.loads(resource['headers'])
@@ -43,7 +44,7 @@ class ResourceManager():
             # Headers have not been specified or were of invalid format
             headers = {}
 
-        return (resource['body'], headers, resource['type'])
+        return resource['body'], headers, resource['type']
 
     def activate(self, user_id, path):
         self.db.set_resource_public(user_id, path, True)

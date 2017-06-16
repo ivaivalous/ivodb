@@ -23,7 +23,8 @@ SCRIPT_TEMPLATE = """
 """
 GET_LOGS_SCRIPT = 'return window.logs;'
 
-class Scripter():
+
+class Scripter:
     def __init__(self):
         self.driver = webdriver.PhantomJS()
 

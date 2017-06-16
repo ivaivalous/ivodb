@@ -3,7 +3,8 @@
 MAX_LOG_LENGTH = 1000
 MESSAGE_MAX_LENGTH = 2000
 
-class ScriptLogger():
+
+class ScriptLogger:
 
     def __init__(self, db):
         self.db = db
@@ -47,6 +48,7 @@ class ScriptLogger():
 
         return result
 
+    @staticmethod
     def transform_log_entries(self, log):
         result = []
 

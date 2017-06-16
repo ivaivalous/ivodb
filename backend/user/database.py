@@ -5,7 +5,8 @@ import pymongo
 from pymongo import MongoClient
 from bson.objectid import ObjectId
 
-class Database():
+
+class Database:
 
     def __init__(self):
         self.db_config = config_reader.config['databaseSettings']
@@ -66,7 +67,6 @@ class Database():
 
     def update_user(self, id, user_name, email, display_name, password_hash):
         pass
-
 
     def get_resource(self, user_id, path):
         if user_id is None or path is None:
