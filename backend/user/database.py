@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import config_reader
-import pymongo
+
 from pymongo import MongoClient
 from bson.objectid import ObjectId
 
@@ -65,7 +65,7 @@ class Database:
             "active": True
         }).inserted_id
 
-    def update_user(self, id, user_name, email, display_name, password_hash):
+    def update_user(self, user_id, user_name, email, display_name, password_hash):
         pass
 
     def get_resource(self, user_id, path):
@@ -92,20 +92,20 @@ class Database:
         return self.get_resource(user_id, path)
 
     def create_resource(
-            self, user_id, name, path, type, body, headers, published):
+            self, user_id, name, path, res_type, body, headers, published):
 
         return self.db.resources.insert_one({
             "userId": user_id,
             "name": name,
             "path": path,
-            "type": type,
+            "type": res_type,
             "body": body,
             "headers": headers,
             "published": published
         }).inserted_id
 
     def update_resource(
-            self, user_id, name, path, new_path, type, body, headers, published):
+            self, user_id, name, path, new_path, res_type, body, headers, published):
 
         return self.db.resources.update_one(
             {"$and": [
@@ -115,7 +115,7 @@ class Database:
             {"$set": {
                 "name": name,
                 "path": new_path,
-                "type": type,
+                "type": res_type,
                 "body": body,
                 "headers": headers,
                 "published": published

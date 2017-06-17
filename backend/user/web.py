@@ -2,7 +2,6 @@
 
 import flask
 import requests
-import re
 import database
 import responses
 import scripter
@@ -315,7 +314,7 @@ def register():
 @app.route('/reset-password', methods=['POST'])
 def reset_password():
     """Request to reset user password"""
-    UserManager(db).reset_password()
+    UserManager(db).reset_password(None, "", "")
 
 
 if __name__ == '__main__':

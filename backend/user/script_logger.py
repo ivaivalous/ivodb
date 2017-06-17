@@ -49,7 +49,7 @@ class ScriptLogger:
         return result
 
     @staticmethod
-    def transform_log_entries(self, log):
+    def transform_log_entries(log):
         result = []
 
         for entry in log:
@@ -68,7 +68,3 @@ class ScriptLogger:
             })
 
         return result
-
-
-
-
