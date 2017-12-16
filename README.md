@@ -1,6 +1,6 @@
 # ivodb
 
-## Unfortunately, this project is no longer in active development
+**Unfortunately, this project is no longer in active development**
 
 ## Scripter Workflow
 
