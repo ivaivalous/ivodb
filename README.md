@@ -1,6 +1,6 @@
 # ivodb
 
-**Unfortunately, this project is no longer in active development**
+**Unfortunately, this project is no longer in active development. It is in usable state, but has some bugs that make it unready for production use.**
 
 ## Scripter Workflow
 
